@@ -95,8 +95,7 @@ Chartly is a stock portfolio platform that allows users to monitor, analyze, and
 - Aggregate portfolio data:
     - Total investment, total current value, and overall returns.
 
-![use case diagram](./use-case-diagram.png)
-
+![use-case-diagram](use-case-diagram.png)
 ## Non-Functional Requirements
 
 ### Performance
@@ -114,14 +113,13 @@ Chartly is a stock portfolio platform that allows users to monitor, analyze, and
 ### Platform/Compatibility
 
 ## System Requirements
-![system context diagram](./system-context-diagram.png)
+![system-context-diagram](system-context-diagram.png)
 
 ### Software Environment
 
 - Server: Ubuntu 22.04.5 LTS
-- Database: PostgreSQL 13.5
+- Database: MySQL 8.0.33
 - Web Server: Nginx 1.27
-
 
 ## Technical Constraints
 
@@ -129,5 +127,4 @@ Chartly is a stock portfolio platform that allows users to monitor, analyze, and
 
 - Backend can only be developed using PHP.
 - Frontend can only be developed using HTML, CSS, and JavaScript.
-- Database must exclusively use PostgreSQL.
-- Real-time data processing must be implemented using RabbitMQ.
+- Database must exclusively use MySQL.
