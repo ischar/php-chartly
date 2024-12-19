@@ -47,7 +47,7 @@
         <!-- Remember Me -->
         <div class="flex mt-4 w-full justify-end">
             <label for="remember_me" class="">
-                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Sign Up') }}</span>
+                <a href="{{ route('register') }}" class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Sign Up') }}</a>
             </label>
         </div>
         
