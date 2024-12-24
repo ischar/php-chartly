@@ -18,6 +18,7 @@ export default {
                         input: '#f3f4f6',
                         card: '#ffffff',
                         button: '#3b82f6',
+                        border: '#dddddd',
                     },
                     fg: {
                         primary: '#111827',
@@ -32,6 +33,7 @@ export default {
                         input: '#333333',
                         card: '#292929',
                         button: '#2563eb',
+                        border: '#e0e0e0'
                     },
                     fg: {
                         primary: '#f9fafb',
