@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Stock\NasdaqController;
+use App\Http\Controllers\WatchlistController;
+use App\Models\WatchlistStock;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,14 +18,14 @@ Route::get('/portfolio', function () {
     return view('portfolio');
 })->middleware(['auth', 'verified'])->name('portfolio');
 
-Route::get('/watchlist', function () {
-    return view('watchlist');
-})->middleware(['auth', 'verified'])->name('watchlist');
-
 Route::get('/api/nasdaq', [NasdaqController::class, 'getNasdaqData'])->name('api.nasdaq');
+Route::get('/api/nasdaq-stocks', [NasdaqController::class, 'getAllNasdaqStocks']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/watchlist', [WatchlistController::class, 'index'])->name('watchlist');
+    Route::post('/watchlist', [WatchlistController::class, 'store'])->name('watchlist.store');
+    Route::delete('/watchlist/{id}', [WatchlistController::class, 'destroy'])->name('watchlist.destory');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });

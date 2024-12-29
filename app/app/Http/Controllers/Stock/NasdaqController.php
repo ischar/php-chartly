@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Stock;
 
 use App\Http\Controllers\Controller; 
 use Illuminate\Support\Facades\Http;
+use App\Models\NasdaqStock;
 
 class NasdaqController extends Controller
 {
@@ -32,5 +33,11 @@ class NasdaqController extends Controller
         }
 
         return response()->json(['error' => 'Unable to fetch data'], 500);
+    }
+
+    public function getAllNasdaqStocks()
+    {
+        $stocks = NasdaqStock::all();
+        return response()->json($stocks);
     }
 }
