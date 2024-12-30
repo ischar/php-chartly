@@ -13,7 +13,18 @@
       </button>
     </div>
     <p class="card-description inline px-2 py-1 rounded-lg text-[12px] font-bold bg-light-fg-button">{{ $stock->ticker }} </p>
-    <p class="text-end">{{ $stock->current_price }} USD</p>
+    <p class="text-end text-lg font-semibold"> {{$stock->current_price}} USD
+      @if (!is_null($stock->change))
+      @php
+      $change = number_format($stock->change, 2);
+      @endphp
+      <span class="{{ $change >= 0 ? 'text-blue-400 dark:text-blue-500' : 'text-red-400 dark:text-red-500' }}">
+        {{ $change > 0 ? '+' : '' }}{{ $change }}%
+      </span>
+      @else
+      N/A
+      @endif
+    </p>
   </div>
 </div>
 

@@ -26,9 +26,19 @@ class WatchlistController extends Controller
           ],
         ]);
         $data = json_decode($response->getBody(), true);
-        $stock->current_price = $data['c']; 
+        $currentPrice = $data['c'];
+        $previousClose = $data['pc'];
+        $change = null;
+
+        if ($previousClose > 0) {
+          $change = (($currentPrice - $previousClose) / $previousClose) * 100;
+        }
+
+        $stock->current_price = $currentPrice;
+        $stock->change = $change;
       } catch (\Exception $e) {
         $stock->current_price = null;
+        $stock->change = null;
       }
 
       return $stock;
