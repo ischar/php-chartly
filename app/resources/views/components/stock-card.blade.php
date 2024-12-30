@@ -13,7 +13,7 @@
       </button>
     </div>
     <p class="card-description inline px-2 py-1 rounded-lg text-[12px] font-bold bg-light-fg-button">{{ $stock->ticker }} </p>
-    <p class="text-end"> </p>
+    <p class="text-end">{{ $stock->current_price }} USD</p>
   </div>
 </div>
 

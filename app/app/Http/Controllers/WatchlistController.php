@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\WatchlistStock;
+use GuzzleHttp\Client;
 
 class WatchlistController extends Controller
 {
@@ -11,8 +12,30 @@ class WatchlistController extends Controller
   {
     $userEmail = $request->user()->email;
     $watchlists = WatchlistStock::where('email', $userEmail)->get();
-    
-    return view('watchlist', ['watchlists' => $watchlists]);
+
+    $client = new Client();
+    $apiKey = env('FINNHUB_API_KEY');
+    $updatedWatchlists = $watchlists->map(function ($stock) use ($client, $apiKey) {
+      $ticker = $stock->ticker;
+
+      try {
+        $response = $client->get("https://finnhub.io/api/v1/quote", [
+          'query' => [
+            'symbol' => $ticker,
+            'token' => $apiKey,
+          ],
+        ]);
+        $data = json_decode($response->getBody(), true);
+        $stock->current_price = $data['c']; 
+      } catch (\Exception $e) {
+        $stock->current_price = null;
+      }
+
+      return $stock;
+    });
+
+
+    return view('watchlist', ['watchlists' => $updatedWatchlists]);
   }
 
   public function store(Request $request)
@@ -33,10 +56,11 @@ class WatchlistController extends Controller
     return response()->json(['message' => 'Stock added to watchlist'], 201);
   }
 
-  public function destroy($id) {
-      $watchlist = WatchlistStock::findOrFail($id);
-      $watchlist->delete();
+  public function destroy($id)
+  {
+    $watchlist = WatchlistStock::findOrFail($id);
+    $watchlist->delete();
 
-      return response()->json(['message' => 'Stock removed from watchlist'], 200);
+    return response()->json(['message' => 'Stock removed from watchlist'], 200);
   }
 }
