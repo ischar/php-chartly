@@ -73,4 +73,48 @@ class WatchlistController extends Controller
 
     return response()->json(['message' => 'Stock removed from watchlist'], 200);
   }
+
+  public function getRecentWatchlists(Request $request)
+  {
+    $userEmail = $request->user()->email;
+
+    $watchlists = WatchlistStock::where('email', $userEmail)
+      ->orderBy('updated_at', 'desc')
+      ->take(4)
+      ->get();
+
+    $client = new Client();
+    $apiKey = env('FINNHUB_API_KEY');
+    $updatedWatchlists = $watchlists->map(function ($stock) use ($client, $apiKey) {
+      $ticker = $stock->ticker;
+
+      try {
+        $response = $client->get("https://finnhub.io/api/v1/quote", [
+          'query' => [
+            'symbol' => $ticker,
+            'token' => $apiKey,
+          ],
+        ]);
+        $data = json_decode($response->getBody(), true);
+        $currentPrice = $data['c'];
+        $previousClose = $data['pc'];
+        $change = null;
+
+        if ($previousClose > 0) {
+          $change = (($currentPrice - $previousClose) / $previousClose) * 100;
+          $roundChange = round($change, 2);
+        }
+
+        $stock->current_price = $currentPrice;
+        $stock->change = $roundChange;
+      } catch (\Exception $e) {
+        $stock->current_price = null;
+        $stock->change = null;
+      }
+
+      return $stock;
+    });
+
+    return $updatedWatchlists;
+  }
 }

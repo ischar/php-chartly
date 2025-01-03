@@ -4,15 +4,13 @@
             <p>Loading Nasdaq Data...</p>
         </div>
     </x-slot>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("You're logged in!") }}
-                </div>
-            </div>
+    <div class="grid grid-cols-5 justify-between mx-56 my-auto ">
+        <div id="watch-list" class="justify-center flex flex-col col-span-1 mr-5 items-center space-y-5">
+        </div>
+        <div class="col-span-4 bg-light-bg-card dark:bg-dark-bg-card rounded-2xl">
+            <x-overview />
         </div>
     </div>
 
-    @vite(['resources/js/nasdaq.js'])
+    @vite(['resources/js/nasdaq.js','resources/js/dashboard-watchlist.js'])
 </x-app-layout>

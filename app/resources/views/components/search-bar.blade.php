@@ -33,7 +33,7 @@
   <!-- Suggestions Dropdown -->
   <div class="w-full relative">
     <ul id="suggestions-list" class="absolute w-full bg-white rounded-b-lg text-sm text-black font-medium" aria-live="polite">
-  
+
     </ul>
   </div>
 </form>
