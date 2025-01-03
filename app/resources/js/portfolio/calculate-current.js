@@ -1,6 +1,6 @@
 export default async function calculateCurrent() {
     const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-    const response = await fetch("/portfolio/summary", {
+    const response = await fetch("/api/portfolio/summary", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
